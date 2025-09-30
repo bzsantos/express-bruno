@@ -1,6 +1,6 @@
 import { connection } from './bd.js'
 
-class App {
+export class App {
 
     async executeSearchQuey() {
         /** @type {import("mysql2/promise").Connection} */
@@ -48,15 +48,18 @@ class App {
         }
     }
 
-    async InsertQuey() {
+    async InsertQuery(valor1,valor2) {
         /** @type {import("mysql2/promise").Connection} */
         let conn;
         try {
             conn = await connection()
             let sql = "INSERT INTO estudante SET ? "
-            let dados = { nome: "Mario", email: "marinho@gmail.com" }
+            let myname = valor1
+            let mymail = valor2
 
-            const [rows] = await conn.query(sql, dados)
+            let dd = { nome: myname, email: mymail }
+
+            const [rows] = await conn.query(sql, dd)
 
             console.log('Inserção bem-sucedida!');
             console.log(`Linhas afetadas: ${rows.affectedRows}`);
@@ -77,8 +80,8 @@ class App {
         try {
             conn = await connection()
             let sql = "update estudante set ? where id = ?"
-            let id = 2
-            let dados = { nome: "Mario3", email: "marinho3@gmail.com" }
+            let id = 3
+            let dados = { nome: "Mario8", email: "marinho3@gmail.com" }
 
             const [rows] = await conn.query(sql, [dados,id])
 
@@ -101,7 +104,7 @@ class App {
         try {
             conn = await connection()
             let sql = "delete from estudante where id = ?"
-            let id = 2
+            let id = 4
             
             const [rows] = await conn.query(sql, id)
 
@@ -122,16 +125,16 @@ class App {
 
 
 
-const myapp = new App()
+//const myapp = new App()
 
 //myapp.executeSearchQuey()
 
-//myapp.SearchQueyById(2)
+//myapp.SearchQueyById(3)
 
 //myapp.InsertQuey()
 
 //myapp.UpdatetQuey()
 
-myapp.DeletetQuey()
+//myapp.DeletetQuey()
 
 

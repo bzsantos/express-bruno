@@ -1,7 +1,6 @@
 import express from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { App } from './app.js'
 
 const rota = express()
 const porta = 3000
@@ -25,37 +24,10 @@ rota.get('/sobre', (req,res) => {
 
 
 const teste = (req,res) => {
-
-    const crud = new App()
-
-    
-    crud.executeSearchQuey()
-    //crud.SearchQueyById(1)
-    //crud.InsertQuey()
-    //crud.UpdatetQuey()
-    //crud.DeletetQuey(5)
-
-
-    //console.log("")
+    console.log("Meu teste")
 }
 
-//rota.get('/testar', teste)
-
-
-
-const gravar = (req,res) => {
-
-    const crud = new App()    
-
-    let nomeRecebido = req.query.nome  
-    let emailRecebido = req.query.email
-
-    crud.InsertQuery(nomeRecebido,emailRecebido)
-}
-
-rota.get('/inserir', gravar)
-
-
+rota.get('/testar', teste)
 
 
 
