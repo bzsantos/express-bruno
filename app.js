@@ -14,6 +14,8 @@ export class App {
 
             console.log('Registro: total de tuplas', rows)
 
+            return rows
+
         } catch (error) {
             console.error('Não encontrado')
             throw error
@@ -37,6 +39,9 @@ export class App {
 
 
             console.log('Registro: total de tuplas', rows)
+
+            return rows
+            
 
         } catch (error) {
             console.error('Não encontrado')
@@ -74,39 +79,57 @@ export class App {
         }
     }
 
-    async UpdatetQuey() {
+    async UpdatetQuey(id, nome, email) {
         /** @type {import("mysql2/promise").Connection} */
         let conn;
         try {
-            conn = await connection()
-            let sql = "update estudante set ? where id = ?"
-            let id = 3
-            let dados = { nome: "Mario8", email: "marinho3@gmail.com" }
-
-            const [rows] = await conn.query(sql, [dados,id])
-
+            // 1. Conexão com o banco de dados
+            conn = await connection();
+            
+            // 2. Criação do objeto de dados para o MySQL
+            // Filtra campos que são nulos ou undefined para evitar atualizar o campo do BD com null
+            let dadosParaAtualizar = {};
+            if (nome) dadosParaAtualizar.nome = nome;
+            if (email) dadosParaAtualizar.email = email;
+    
+            // Verifica se há algo para atualizar
+            if (Object.keys(dadosParaAtualizar).length === 0) {
+                console.log('Nenhum dado fornecido para atualização.');
+                return { affectedRows: 0 }; // Retorna 0 se não houver o que atualizar
+            }
+    
+            // 3. Consulta SQL - Usa '??' para o identificador da tabela/coluna e '?' para os valores.
+            // Se a sua biblioteca mysql2/promise aceita o objeto diretamente:
+            let sql = "UPDATE estudante SET ? WHERE id = ?";
+            
+            // 4. Execução da consulta, passando o objeto de dados e o ID
+            const [result] = await conn.query(sql, [dadosParaAtualizar, id]); // Usa 'dadosParaAtualizar' e 'id' recebidos
+    
             console.log('Alteração bem-sucedida!');
-            console.log(`Linhas afetadas: ${rows.affectedRows}`);
-
+            console.log(`Linhas afetadas: ${result.affectedRows}`);
+            
+            // Retorna o resultado para a rota do Express
+            return result; 
+    
         } catch (error) {
-            console.error('Não encontrado')
-            throw error
+            console.error('Erro ao atualizar registro:', error);
+            throw error;
         } finally {
             if (conn) {
-                conn.end()
+                conn.end();
             }
         }
     }
 
-    async DeletetQuey() {
+    async DeletetQuey(id) {
         /** @type {import("mysql2/promise").Connection} */
         let conn;
         try {
             conn = await connection()
-            let sql = "delete from estudante where id = ?"
-            let id = 4
-            
-            const [rows] = await conn.query(sql, id)
+            let sql = "delete from estudante where id = ?"            
+            let ids = id
+                        
+            const [rows] = await conn.query(sql, ids)
 
             console.log('Remoção bem-sucedida!');
             console.log(`Linhas afetadas: ${rows.affectedRows}`);
@@ -135,6 +158,6 @@ export class App {
 
 //myapp.UpdatetQuey()
 
-//myapp.DeletetQuey()
+//myapp.DeletetQuey(5)
 
 

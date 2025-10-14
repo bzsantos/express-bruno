@@ -1,7 +1,7 @@
 {
   "name": "web",
   "version": "1.0.0",
-  "description": "",
+  "description": "exemplo de rota com express",
   "main": "bd.js",
   "type": "module",
   "scripts": {
@@ -11,9 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^2.2.0",
     "express": "^5.1.0",
     "mysql": "^2.18.1",
-    "mysql2": "^3.15.1",
+    "mysql2": "^3.15.2",
     "path": "^0.12.7",
     "promise": "^8.3.0",
     "url": "^0.11.4"
