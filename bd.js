@@ -5,7 +5,7 @@ export async function connection(){
         const connection = await mysql.createConnection({
             host:'localhost',
             user:'root',
-            password:'',            
+            password:'admin',            
             database:'dados'
         })
               
